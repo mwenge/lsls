@@ -1,0 +1,304 @@
+/* Matches the background color of the codemirror theme */
+:root {
+  --main-bg-color: #0C1021;
+  --main-fg-color: #98fb98;
+  --help-bg-color: #e6db77;
+  --help-bg-color-border: #e6df07;
+  --alt-file-color: #e8f48c;
+}
+body {
+  background-color: #1C1C1C;
+}
+@font-face {
+  font-family: 'ABCFavoritMono';
+  font-style: normal;
+  font-weight: 400;
+  src: url(ABCFavoritMono-Light.woff) format('truetype');
+}
+@font-face {
+  font-family: 'osd';
+  src: url('assets/VCR_OSD_MONO_1.001.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('assets/Inconsolata.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'io10';
+  src: url('assets/io10.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.CodeMirror {
+  font-family: "Inconsolata", "io10", monospace;
+  font-size: 20px;
+}
+#program > .CodeMirror {
+  font-family: "Inconsolata", "io10", monospace;
+  font-size: 25px;
+}
+#output > .CodeMirror {
+  font-family: "Inconsolata", "io10", monospace;
+  font-size: 25px;
+}
+.help {
+  max-height: 3vh;
+  z-index: 9998;
+  font-family: "Inconsolata";
+  font-size: 0.8vw;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  background-color: #242424;
+  cursor: pointer;
+  margin-right: 10px;	
+}
+kbd {
+  background: var(--help-bg-color);
+  border-radius: 3px;
+  border: 1px solid var(--help-bg-color-border);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 1px 0 0 rgba(255, 255, 255, .7) inset;
+  color: #333;
+  display: inline-block;
+  font-weight: 700;
+  padding: 1px 1px;
+  white-space: nowrap;
+  font-family: "Inconsolata", monospace;
+}
+.lozenge {
+  color: var(--help-bg-color);
+  display: inline-block;
+  font-weight: bold;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body{
+  overflow: hidden;
+}
+.container {
+  position: relative;
+  height: 97vh;
+  width: 100%;
+}
+.history-container {
+  height:70%;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+.command,.result {
+  min-width: 100%;
+  height: 13.3vh;
+}
+.program {
+  margin: 1px;
+  width: 100%;
+  height: 13%;
+  border:1px solid white;
+}
+.input,.output {
+  width: 100%;
+  height:13.7%;
+  border:1px;
+  margin: 1px;
+  border:1px solid white;
+}
+.editorContainer:focus {
+  outline: 0.5px solid var(--help-bg-color);
+}
+/* Copied from http://aleclownes.com/2017/02/01/crt-display.html */
+.running {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  padding: 5px;
+  font-family: 'osd';
+  font-size: 14px;
+  color: black;
+  z-index: 999999;
+  text-transform: uppercase;
+}
+/* Copied from http://aleclownes.com/2017/02/01/crt-display.html */
+.running::before, .title::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+  linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+.awesomebar {
+  text-transform: uppercase;
+  z-index: 9998;
+  width: 100%;
+  height:2.8%;
+  font-family: "Inconsolata";
+}
+.filesbar {
+  font-family: "Inconsolata";
+  display:none;
+  visibility: hidden;
+}
+.pipe,.pipeline-name,.title {
+  padding: 3px 10px 2px 15px;
+  color: lightgray;
+  position: relative;
+  display: inline-block;
+  border: 1px solid white;
+  background-color: var(--main-bg-color);
+}
+.title {
+  width: 4.8vw;
+  white-space: nowrap;
+  padding-left: 10px;
+}
+.pipeline-name {
+  color: white;
+}
+.pipeline-container {
+  display: inline-block;
+}
+
+.pipe {
+  border: 1px solid white;
+  text-transform: lowercase;
+}
+
+.file {
+  border: 1px solid white;
+  text-transform: none;
+}
+
+/* this CS forms the triangles */
+.pipe:after,
+.pipe:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 100%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* this border color controlls the color of the triangle (what looks like the fill of the triangle) */
+.pipe:after {
+  top: 1px;
+  border-color: transparent transparent transparent var(--main-bg-color);
+  border-width: 10px;
+}
+
+/* this border color controls the outside, thin border */
+.pipe:before {
+  top:-2px;
+  border-color: transparent transparent transparent white;
+  border-width: 13px;
+}
+.activepipe {
+  background: var(--main-fg-color);
+  color: var(--main-bg-color);
+}
+.activepipe:after {
+  border-color: transparent transparent transparent var(--main-fg-color);
+}
+.altfile {
+  background: var(--alt-file-color);
+  color: var(--main-bg-color);
+}
+.altfile:after {
+  border-color: transparent transparent transparent var(--alt-file-color);
+}
+.tip-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-family: 'osd';
+  background: lightblue;
+}
+.file-tip {
+  position: absolute;
+  left: 0;
+  bottom: 26px;
+  padding: 0 5px 0 5px;
+  display: inline-block;
+  color: white;
+  background: black;
+  padding: 3px;
+  text-transform: none;
+}
+.shortcut-tip {
+  padding: 0 5px 0 5px;
+  display: inline-block;
+  color: black;
+  height: 100%;
+}
+.CodeMirror {
+  border: 1px solid #222;
+  height: 100%;
+}
+
+.CodeMirror-simplescroll-horizontal div, .CodeMirror-simplescroll-vertical div {
+  background: grey;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.CodeMirror-simplescroll-horizontal, .CodeMirror-simplescroll-vertical {
+  background: black;
+}
+
+.CodeMirror-simplescroll-horizontal {
+  height: 10px;
+}
+.CodeMirror-simplescroll-horizontal div {
+  height: 100%;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+.filename {
+  cursor: pointer;
+}
+.copy-icon {
+    cursor: pointer;
+    height: 1.25rem;
+    -webkit-mask-image: url(/assets/clip.svg);
+    mask-image: url(/assets/clip.svg);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    margin: 0;
+    padding: .25rem;
+    width: 1.25rem;
+    opacity: .4;
+}
+.copy-icon:focus {
+  opacity: .8; 
+}
+.copy-icon:focus ~ .filename {
+  font-weight: bold;
+}
+.filename:hover {
+  font-weight: bold;
+}
+.filename:focus {
+  font-weight: bold;
+}
+.filename:focus ~ .copy-icon {
+  opacity: .8; 
+}
